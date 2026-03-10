@@ -46,13 +46,13 @@ const QUIZ_DATA = {
    "index": 8,
    "title": "Web Development & APIs",
    "range": "Q701–Q800",
-   "count": 87
+   "count": 100
   },
   {
    "index": 9,
    "title": "Data Science & NumPy/Pandas",
    "range": "Q801–Q900",
-   "count": 87
+   "count": 100
   },
   {
    "index": 10,
@@ -10294,6 +10294,175 @@ const QUIZ_DATA = {
    "part": 8
   },
   {
+   "id": 788,
+   "question": "How does Flask store session data by default?",
+   "options": {
+    "A": "Signed cookie (client-side)",
+    "B": "Server-side database",
+    "C": "Redis only",
+    "D": "File system"
+   },
+   "correct": "A",
+   "explanation": "Flask uses signed cookies for session by default.",
+   "part": 8
+  },
+  {
+   "id": 789,
+   "question": "What does FastAPI's `response_model` parameter do?",
+   "options": {
+    "A": "Validates request body",
+    "B": "Serializes and documents response schema",
+    "C": "Sets Content-Type only",
+    "D": "Caches response"
+   },
+   "correct": "B",
+   "explanation": "response_model serializes output and appears in OpenAPI docs.",
+   "part": 8
+  },
+  {
+   "id": 790,
+   "question": "What does the Cache-Control HTTP header control?",
+   "options": {
+    "A": "Request body size",
+    "B": "Authentication",
+    "C": "Caching behavior (max-age, no-cache, etc.)",
+    "D": "CORS policy"
+   },
+   "correct": "C",
+   "explanation": "Cache-Control directs how responses may be cached.",
+   "part": 8
+  },
+  {
+   "id": 791,
+   "question": "What is CORS (Cross-Origin Resource Sharing)?",
+   "options": {
+    "A": "A database protocol",
+    "B": "A caching strategy",
+    "C": "A security feature",
+    "D": "A mechanism allowing cross-origin HTTP requests"
+   },
+   "correct": "D",
+   "explanation": "CORS lets browsers make cross-origin requests when allowed by server.",
+   "part": 8
+  },
+  {
+   "id": 792,
+   "question": "Which is a common REST API versioning strategy?",
+   "options": {
+    "A": "URL path (/api/v1/users)",
+    "B": "Query param only",
+    "C": "Header only",
+    "D": "No versioning"
+   },
+   "correct": "A",
+   "explanation": "URL path versioning is widely used and explicit.",
+   "part": 8
+  },
+  {
+   "id": 793,
+   "question": "How does GraphQL differ from REST?",
+   "options": {
+    "A": "GraphQL uses only GET",
+    "B": "Client requests exact fields; single endpoint",
+    "C": "REST has no schema",
+    "D": "GraphQL cannot do mutations"
+   },
+   "correct": "B",
+   "explanation": "GraphQL lets clients specify fields; REST returns fixed resources.",
+   "part": 8
+  },
+  {
+   "id": 794,
+   "question": "What are the main phases of a WebSocket connection?",
+   "options": {
+    "A": "Connect only",
+    "B": "Request and response",
+    "C": "HTTP upgrade, then bidirectional messaging, then close",
+    "D": "Polling loop"
+   },
+   "correct": "C",
+   "explanation": "WebSocket upgrades from HTTP, then sends messages both ways until closed.",
+   "part": 8
+  },
+  {
+   "id": 795,
+   "question": "What relationship types does SQLAlchemy support?",
+   "options": {
+    "A": "One-to-one only",
+    "B": "Many-to-many only",
+    "C": "One-to-one and one-to-many only",
+    "D": "One-to-one, one-to-many, many-to-many"
+   },
+   "correct": "D",
+   "explanation": "SQLAlchemy supports relationship, backref, and association tables.",
+   "part": 8
+  },
+  {
+   "id": 796,
+   "question": "What is database connection pooling?",
+   "options": {
+    "A": "Reusing a pool of connections instead of creating new ones",
+    "B": "Storing queries",
+    "C": "Caching results",
+    "D": "Load balancing only"
+   },
+   "correct": "A",
+   "explanation": "Pooling reuses connections to reduce overhead.",
+   "part": 8
+  },
+  {
+   "id": 797,
+   "question": "How is API rate limiting typically implemented?",
+   "options": {
+    "A": "Client-side only",
+    "B": "Token bucket, sliding window, or fixed window per client",
+    "C": "Per-request encryption",
+    "D": "Database triggers"
+   },
+   "correct": "B",
+   "explanation": "Rate limiting uses algorithms like token bucket or sliding window.",
+   "part": 8
+  },
+  {
+   "id": 798,
+   "question": "Which are OAuth2 grant types?",
+   "options": {
+    "A": "GET and POST only",
+    "B": "Authorization code and client credentials only",
+    "C": "Authorization code, client credentials, password, implicit",
+    "D": "JWT only"
+   },
+   "correct": "C",
+   "explanation": "OAuth2 defines authorization code, client credentials, password, and implicit grants.",
+   "part": 8
+  },
+  {
+   "id": 799,
+   "question": "How does HTTP/2 differ from HTTP/1.1?",
+   "options": {
+    "A": "HTTP/2 is slower",
+    "B": "HTTP/2 uses plain text",
+    "C": "HTTP/2 has no multiplexing",
+    "D": "Multiplexing, header compression, binary framing"
+   },
+   "correct": "D",
+   "explanation": "HTTP/2 multiplexes streams, compresses headers, uses binary framing.",
+   "part": 8
+  },
+  {
+   "id": 800,
+   "question": "What are common API pagination patterns?",
+   "options": {
+    "A": "Offset/limit and cursor-based",
+    "B": "Random access only",
+    "C": "Full dump only",
+    "D": "No pagination"
+   },
+   "correct": "A",
+   "explanation": "Offset/limit (page, size) and cursor-based (next_token) are common.",
+   "part": 8
+  },
+  {
    "id": 801,
    "question": "What does `np.array([1,2,3])` create?",
    "options": {
@@ -11422,6 +11591,175 @@ const QUIZ_DATA = {
    },
    "correct": "A",
    "explanation": "Memory per column.",
+   "part": 9
+  },
+  {
+   "id": 888,
+   "question": "What is the difference between Pandas `apply()` and `map()`?",
+   "options": {
+    "A": "apply works on DataFrame/Series; map is for Series element-wise",
+    "B": "They are identical",
+    "C": "map is faster for DataFrames",
+    "D": "apply is deprecated"
+   },
+   "correct": "A",
+   "explanation": "apply runs on axis; map is Series element-wise mapping.",
+   "part": 9
+  },
+  {
+   "id": 889,
+   "question": "What does `np.where(condition, x, y)` return?",
+   "options": {
+    "A": "Indices where condition is True",
+    "B": "Array with x where condition True, else y",
+    "C": "Boolean mask only",
+    "D": "Single value"
+   },
+   "correct": "B",
+   "explanation": "where returns element from x or y based on condition.",
+   "part": 9
+  },
+  {
+   "id": 890,
+   "question": "What does Pandas `rolling(window=5)` do?",
+   "options": {
+    "A": "Reshape to 5 columns",
+    "B": "Shift by 5 rows",
+    "C": "Sliding window of size 5 for aggregation",
+    "D": "Sample every 5th row"
+   },
+   "correct": "C",
+   "explanation": "rolling creates sliding windows for mean, sum, etc.",
+   "part": 9
+  },
+  {
+   "id": 891,
+   "question": "What does `np.random.seed(42)` do?",
+   "options": {
+    "A": "Sets random state for reproducibility",
+    "B": "Generates 42 random numbers",
+    "C": "Seeds only for integers",
+    "D": "Deprecated in NumPy"
+   },
+   "correct": "A",
+   "explanation": "seed makes random sequences reproducible (use Generator in modern NumPy).",
+   "part": 9
+  },
+  {
+   "id": 892,
+   "question": "What is Pandas categorical dtype?",
+   "options": {
+    "A": "Memory-efficient storage for repeated categories",
+    "B": "Continuous numeric type",
+    "C": "Datetime type",
+    "D": "String type"
+   },
+   "correct": "A",
+   "explanation": "Categorical stores categories as codes, saving memory.",
+   "part": 9
+  },
+  {
+   "id": 893,
+   "question": "What do `np.save` and `np.load` do?",
+   "options": {
+    "A": "Save/load JSON",
+    "B": "Save/load arrays in binary .npy format",
+    "C": "Save to CSV",
+    "D": "Compress only"
+   },
+   "correct": "B",
+   "explanation": "save/load use NumPy binary format for arrays.",
+   "part": 9
+  },
+  {
+   "id": 894,
+   "question": "How does Pandas handle time zones?",
+   "options": {
+    "A": "Ignores time zones",
+    "B": "Uses `tz_localize` and `tz_convert`",
+    "C": "Only UTC",
+    "D": "No support"
+   },
+   "correct": "B",
+   "explanation": "tz_localize assigns TZ; tz_convert converts between TZs.",
+   "part": 9
+  },
+  {
+   "id": 895,
+   "question": "What does `plt.subplots(2, 3)` return?",
+   "options": {
+    "A": "Single axes",
+    "B": "2x3 grid of axes and figure",
+    "C": "List of figures",
+    "D": "6 separate figures"
+   },
+   "correct": "B",
+   "explanation": "subplots(nrows, ncols) returns (fig, axes_array).",
+   "part": 9
+  },
+  {
+   "id": 896,
+   "question": "What does Pandas `.str` accessor provide?",
+   "options": {
+    "A": "Vectorized string methods on Series",
+    "B": "Numeric operations",
+    "C": "Date operations",
+    "D": "Index access"
+   },
+   "correct": "A",
+   "explanation": ".str gives vectorized string methods (lower, split, replace, etc.).",
+   "part": 9
+  },
+  {
+   "id": 897,
+   "question": "What does NumPy `einsum` do?",
+   "options": {
+    "A": "Element-wise sum",
+    "B": "Einstein summation for tensor operations",
+    "C": "Sum along axis",
+    "D": "Matrix inverse"
+   },
+   "correct": "B",
+   "explanation": "einsum expresses dot, outer, trace, etc. via subscript notation.",
+   "part": 9
+  },
+  {
+   "id": 898,
+   "question": "What does `pd.crosstab` compute?",
+   "options": {
+    "A": "Correlation matrix",
+    "B": "Pivot table",
+    "C": "Cross-tabulation (frequency table) of two or more factors",
+    "D": "Merge"
+   },
+   "correct": "C",
+   "explanation": "crosstab builds frequency table from two or more columns.",
+   "part": 9
+  },
+  {
+   "id": 899,
+   "question": "What is the difference between normalization and standardization?",
+   "options": {
+    "A": "Same thing",
+    "B": "Normalization scales to [0,1]; standardization uses mean and std",
+    "C": "Only standardization exists",
+    "D": "Normalization is for images only"
+   },
+   "correct": "B",
+   "explanation": "Normalization: min-max to [0,1]; Standardization: (x - mean) / std.",
+   "part": 9
+  },
+  {
+   "id": 900,
+   "question": "What do Pandas `eval()` and `query()` do?",
+   "options": {
+    "A": "Evaluate string expressions for filtering/assignment",
+    "B": "Run Python code",
+    "C": "SQL queries only",
+    "D": "Deprecated"
+   },
+   "correct": "A",
+   "explanation": "eval/query evaluate string expressions for faster operations.",
    "part": 9
   },
   {
