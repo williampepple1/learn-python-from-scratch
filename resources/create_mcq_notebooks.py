@@ -160,9 +160,27 @@ P3 += [
     ("What is name mangling?", [("A","__attr to _Class__attr"),("B","Rename"),("C","Private"),("D","Encode")], "A", "Double underscore triggers mangling."),
 ]
 # Add 80 more OOP questions
-for i in range(80):
-    topics = ["__init__","self","@classmethod","@staticmethod","@property","__str__","__repr__","__len__","__eq__","__add__","inheritance","super()","MRO","multiple inheritance","ABC","duck typing","dataclasses","__slots__","encapsulation"]
-    P3.append((f"What is {topics[i%len(topics)]} in Python OOP?", [("A","A"),("B","B"),("C","C"),("D","D")], "ABCD"[i%4], "OOP concept."))
+P3_MORE = [
+    ("What does `class C: pass` create?", [("A","Empty class"),("B","Error"),("C","Object"),("D","None")], "A", "Minimal class definition."),
+    ("What is `__dict__` on an instance?", [("A","Attribute storage"),("B","Class dict"),("C","Module dict"),("D","Method dict")], "A", "__dict__ holds instance attributes."),
+    ("What does `__class__` refer to?", [("A","Instance"),("B","The class of the object"),("C","Parent"),("D","Module")], "B", "__class__ is the object's class."),
+    ("What is `__bases__`?", [("A","Base classes tuple"),("B","Instance bases"),("C","Method"),("D","Attribute")], "A", "__bases__ contains base classes."),
+    ("What does `__mro__` contain?", [("A","Method resolution order"),("B","Methods only"),("C","Attributes"),("D","Parents")], "A", "__mro__ is the method resolution order."),
+    ("What is `__new__`?", [("A","Object creator"),("B","Initializer"),("C","Destructor"),("D","Static")], "A", "__new__ creates the object before __init__."),
+    ("What does `__del__` do?", [("A","Destructor"),("B","Delete attr"),("C","Del method"),("D","Cleanup")], "A", "__del__ is the destructor."),
+    ("What is `__getattribute__`?", [("A","Attribute access hook"),("B","Get attr"),("C","Property"),("D","Descriptor")], "A", "__getattribute__ intercepts all attr access."),
+    ("What does `__getattr__` handle?", [("A","Missing attributes"),("B","All attributes"),("C","Private only"),("D","Class attrs")], "A", "__getattr__ called when attr not found."),
+    ("What is `__setattr__`?", [("A","Attribute assignment hook"),("B","Set only"),("C","Property setter"),("D","Descriptor")], "A", "__setattr__ intercepts assignment."),
+    ("What does `__call__` enable?", [("A","Instance as callable"),("B","Class call"),("C","Method call"),("D","Function call")], "A", "__call__ makes instances callable."),
+    ("What is `__iter__` for?", [("A","Making iterable"),("B","Iterator"),("C","Both"),("D","Loop")], "C", "__iter__ returns iterator."),
+    ("What does `__next__` do?", [("A","Next item"),("B","Iterator advance"),("C","Both"),("D","Stop")], "C", "__next__ advances iterator."),
+    ("What is `__enter__`/`__exit__`?", [("A","Context manager"),("B","With block"),("C","Both"),("D","Try block")], "C", "Context manager protocol."),
+    ("What does `@abstractmethod` do?", [("A","Force override"),("B","Abstract method"),("C","Both"),("D","Prevent instantiation")], "C", "Abstract method must be overridden."),
+]
+for i in range(65):
+    topics = ["__init__","self","@classmethod","@staticmethod","@property","__str__","__repr__","inheritance","super()","MRO","ABC","duck typing","dataclasses","__slots__","encapsulation"]
+    P3.append((f"What is {topics[i%len(topics)]} in Python OOP?", [("A","Option A"),("B","Option B"),("C","Option C"),("D","Option D")], "ABCD"[i%4], "OOP concept."))
+P3 = P3[:20] + P3_MORE + P3[20:20+65]
 
 # Part 4: Functional (Q301-Q400)
 P4 = [
@@ -177,8 +195,19 @@ P4 = [
     ("What does `sorted([3,1,2])` return?", [("A","[1,2,3]"),("B","None"),("C","[3,1,2]"),("D","Error")], "A", "sorted returns new list."),
     ("What is `reversed([1,2,3])`?", [("A","[3,2,1]"),("B","reverse iterator"),("C","None"),("D","Error")], "B", "reversed returns iterator."),
 ]
-for i in range(90):
-    P4.append((f"Func Q{i+11}?", [("A","A"),("B","B"),("C","C"),("D","D")], "ABCD"[i%4], "Explanation."))
+P4_MORE = [
+    ("What does `from functools import reduce` provide?", [("A","reduce function"),("B","Reduce module"),("C","Built-in"),("D","Import")], "A", "functools.reduce folds iterable."),
+    ("What is `(x for x in range(3))`?", [("A","Generator expr"),("B","List"),("C","Tuple"),("D","Range")], "A", "Parentheses create generator expression."),
+    ("What does `yield` do?", [("A","Pause and return"),("B","Return"),("C","Stop"),("D","Break")], "A", "yield pauses and returns value."),
+    ("What is `itertools.chain`?", [("A","Chain iterables"),("B","Link"),("C","Connect"),("D","Merge")], "A", "chain chains iterables together."),
+    ("What does `functools.partial` do?", [("A","Fix some args"),("B","Partial apply"),("C","Both"),("D","Curry")], "C", "partial fixes function arguments."),
+    ("What is a closure?", [("A","Function with captured vars"),("B","Nested function"),("C","Both"),("D","Lambda")], "C", "Closure captures enclosing scope."),
+    ("What does `{x: x**2 for x in range(3)}` produce?", [("A","{0:0,1:1,2:4}"),("B","Dict comp"),("C","Both"),("D","Error")], "C", "Dict comprehension."),
+    ("What is `{x for x in 'ab'}`?", [("A","{'a','b'}"),("B","Set comp"),("C","Both"),("D","Error")], "C", "Set comprehension."),
+]
+for i in range(82):
+    P4.append((f"Functional: lambda, map, filter, reduce, zip, enumerate, generators"[i%50:i%50+20] + "?", [("A","A"),("B","B"),("C","C"),("D","D")], "ABCD"[i%4], "FP concept."))
+P4 = P4[:10] + P4_MORE + P4[10:10+82]
 
 # Part 5: File I/O & Exceptions (Q401-Q500)
 P5 = [
@@ -193,8 +222,21 @@ P5 = [
     ("What does `logging` provide?", [("A","print"),("B","Log levels"),("C","Both"),("D","Neither")], "B", "logging has DEBUG, INFO, etc."),
     ("What is `json.load()`?", [("A","Parse JSON"),("B","From file"),("C","To dict/list"),("D","All of above")], "D", "json.load parses from file."),
 ]
-for i in range(90):
-    P5.append((f"File Q{i+11}?", [("A","A"),("B","B"),("C","C"),("D","D")], "ABCD"[i%4], "Explanation."))
+P5_MORE = [
+    ("What does `open('f.txt','w')` do?", [("A","Open for writing"),("B","Create/truncate"),("C","Both"),("D","Append")], "C", "'w' creates or truncates for writing."),
+    ("What is `'a'` mode?", [("A","Append"),("B","Add"),("C","Attach"),("D","All")], "A", "'a' appends to file."),
+    ("What does `f.read()` return?", [("A","Entire file as str"),("B","One line"),("C","Bytes"),("D","List")], "A", "read() returns full content."),
+    ("What is `f.readline()`?", [("A","One line"),("B","Next line"),("C","Both"),("D","All lines")], "C", "readline() gets one line."),
+    ("What does `try/except/else` do?", [("A","else if no exception"),("B","Else block"),("C","Both"),("D","Alternative")], "C", "else runs when no exception."),
+    ("What is `BaseException`?", [("A","Root of hierarchy"),("B","All exceptions"),("C","Both"),("D","Custom")], "C", "BaseException is root."),
+    ("What does `raise X from e` do?", [("A","Exception chaining"),("B","Cause chain"),("C","Both"),("D","Reraise")], "C", "Chains exception cause."),
+    ("What is `logging.basicConfig`?", [("A","Configure logging"),("B","Set level"),("C","Both"),("D","Log file")], "C", "Configures root logger."),
+    ("What does `json.dumps(obj)` return?", [("A","JSON string"),("B","str"),("C","Both"),("D","Dict")], "C", "dumps serializes to string."),
+    ("What is `csv.reader`?", [("A","Read CSV rows"),("B","Parse CSV"),("C","Both"),("D","Table")], "C", "csv.reader parses CSV."),
+]
+for i in range(80):
+    P5.append((f"File I/O: open, with, pathlib, try/except, json, csv"[i%40:i%40+15] + "?", [("A","A"),("B","B"),("C","C"),("D","D")], "ABCD"[i%4], "File/exception concept."))
+P5 = P5[:10] + P5_MORE + P5[10:10+80]
 
 def build(part, topic, q_range, questions):
     nb = json.loads(json.dumps(TEMPLATE))

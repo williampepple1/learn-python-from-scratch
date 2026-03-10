@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python — Learn & Quiz</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --python:#3776AB;--python-light:#4B8BBE;--python-dark:#2B5F8A;
+  --green:#22C55E;--green-bg:rgba(34,197,94,.12);
+  --red:#EF4444;--red-bg:rgba(239,68,68,.12);
+  --blue:#3B82F6;--blue-bg:rgba(59,130,246,.1);
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.15);
+  --transition:all .2s ease;
+}
+[data-theme="dark"]{
+  --bg:#0F1117;--bg2:#1A1D2E;--bg3:#242838;--bg4:#2E3348;
+  --text:#E2E8F0;--text2:#94A3B8;--text3:#64748B;
+  --border:#334155;--code-bg:#1E293B;
+}
+[data-theme="light"]{
+  --bg:#F8FAFC;--bg2:#FFFFFF;--bg3:#F1F5F9;--bg4:#E2E8F0;
+  --text:#1E293B;--text2:#475569;--text3:#94A3B8;
+  --border:#CBD5E1;--code-bg:#F1F5F9;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a{color:var(--python);text-decoration:none}
+a:hover{color:var(--python-light)}
+
+/* Header */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-left{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo{font-size:28px}
+.header-title{font-size:18px;font-weight:700;color:var(--text)}
+.header-title span{color:var(--python)}
+.header-right{display:flex;align-items:center;gap:16px}
+.score-display{font-size:14px;color:var(--text2);font-weight:600}
+.score-display em{font-style:normal;color:var(--green);font-size:18px}
+.theme-toggle{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 12px;cursor:pointer;color:var(--text2);font-size:16px;transition:var(--transition)}
+.theme-toggle:hover{background:var(--bg4);color:var(--text)}
+
+/* Tabs */
+.tabs{display:flex;justify-content:center;gap:4px;padding:12px 24px;background:var(--bg)}
+.tab{padding:10px 28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text2);font-size:15px;font-weight:600;cursor:pointer;transition:var(--transition)}
+.tab:hover{color:var(--text);border-color:var(--python)}
+.tab.active{background:var(--python);color:#fff;border-color:var(--python)}
+
+/* Container */
+.container{max-width:900px;margin:0 auto;padding:24px}
+
+/* Landing */
+.landing-hero{text-align:center;padding:48px 0 32px}
+.landing-hero h1{font-size:clamp(28px,5vw,42px);font-weight:800;margin-bottom:8px}
+.landing-hero h1 span{color:var(--python)}
+.landing-hero p{color:var(--text2);font-size:18px;margin-bottom:32px}
+.stats-row{display:flex;justify-content:center;gap:32px;margin-bottom:40px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:32px;font-weight:800;color:var(--python)}
+.stat-label{font-size:13px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.parts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.part-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
+.part-card:hover{border-color:var(--python);transform:translateY(-2px);box-shadow:var(--shadow)}
+.part-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--python);opacity:0;transition:var(--transition)}
+.part-card:hover::before{opacity:1}
+.part-num{font-size:13px;color:var(--python);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.part-title{font-size:17px;font-weight:700;margin-bottom:4px}
+.part-range{font-size:13px;color:var(--text3);margin-bottom:12px}
+.part-progress{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.part-progress-fill{height:100%;background:var(--python);border-radius:2px;transition:width .3s ease}
+.part-score{font-size:12px;color:var(--text3)}
+.start-all{display:inline-flex;align-items:center;gap:8px;background:var(--python);color:#fff;padding:14px 32px;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;transition:var(--transition);margin-top:8px}
+.start-all:hover{background:var(--python-light);transform:translateY(-1px)}
+
+/* Size Picker Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease;backdrop-filter:blur(4px)}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal h3{font-size:20px;font-weight:700;margin-bottom:4px}
+.modal .modal-sub{font-size:14px;color:var(--text2);margin-bottom:20px}
+.size-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.size-btn{padding:14px;border:2px solid var(--border);border-radius:var(--radius);background:var(--bg);cursor:pointer;text-align:center;transition:var(--transition);color:var(--text)}
+.size-btn:hover{border-color:var(--python);background:rgba(55,118,171,.06)}
+.size-btn .size-num{font-size:24px;font-weight:800;color:var(--python);display:block}
+.size-btn .size-label{font-size:12px;color:var(--text3);margin-top:2px}
+.size-btn.full-size{grid-column:1/-1}
+.modal-cancel{display:block;width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg3);color:var(--text2);font-size:14px;cursor:pointer;transition:var(--transition);text-align:center}
+.modal-cancel:hover{background:var(--bg4);color:var(--text)}
+.quiz-mode-label{font-size:12px;color:var(--text3);font-style:italic;margin-top:2px}
+
+/* Quiz */
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.quiz-title{font-size:14px;color:var(--python);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.quiz-counter{font-size:14px;color:var(--text3)}
+.progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:24px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--python),var(--python-light));border-radius:3px;transition:width .3s ease}
+.question-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.q-number{font-size:13px;color:var(--python);font-weight:700;margin-bottom:8px}
+.q-text{font-size:17px;font-weight:500;margin-bottom:20px;line-height:1.7}
+.q-text code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:14px;color:var(--python-light)}
+.q-text pre{background:var(--code-bg);padding:16px;border-radius:8px;overflow-x:auto;margin:12px 0;border:1px solid var(--border)}
+.q-text pre code{background:none;padding:0;font-size:13px;color:var(--text);line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.option{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:var(--transition);background:var(--bg)}
+.option:hover:not(.disabled){border-color:var(--python);background:rgba(55,118,171,.05)}
+.option.selected{border-color:var(--python);background:rgba(55,118,171,.08)}
+.option.correct{border-color:var(--green);background:var(--green-bg)}
+.option.wrong{border-color:var(--red);background:var(--red-bg)}
+.option.disabled{cursor:default;opacity:.85}
+.option.disabled.dim{opacity:.5}
+.option-letter{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--text2);transition:var(--transition)}
+.option.selected .option-letter{background:var(--python);color:#fff}
+.option.correct .option-letter{background:var(--green);color:#fff}
+.option.wrong .option-letter{background:var(--red);color:#fff}
+.option-text{font-size:15px;padding-top:4px;line-height:1.5}
+.option-text code{background:var(--code-bg);padding:1px 5px;border-radius:3px;font-family:'Cascadia Code','Fira Code',monospace;font-size:13px}
+.explanation{margin-top:16px;padding:16px;background:var(--bg3);border-radius:var(--radius);border-left:3px solid var(--green);font-size:14px;color:var(--text2);line-height:1.6;animation:fadeIn .3s ease}
+.explanation code{background:var(--code-bg);padding:1px 5px;border-radius:3px;font-family:'Cascadia Code','Fira Code',monospace;font-size:13px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Navigation */
+.nav-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}
+.nav-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition)}
+.nav-btn:hover:not(:disabled){border-color:var(--python);color:var(--python)}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.nav-btn.primary{background:var(--python);color:#fff;border-color:var(--python)}
+.nav-btn.primary:hover:not(:disabled){background:var(--python-light)}
+
+/* Question Grid */
+.q-grid-toggle{font-size:13px;color:var(--text3);cursor:pointer;text-decoration:underline;text-align:center;margin-bottom:16px}
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px;margin-bottom:24px;padding:12px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border)}
+.q-grid.hidden{display:none}
+.q-dot{width:100%;aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer;background:var(--bg3);color:var(--text3);border:1px solid transparent;transition:var(--transition)}
+.q-dot:hover{border-color:var(--python);color:var(--text)}
+.q-dot.current{border-color:var(--python);background:rgba(55,118,171,.15);color:var(--python)}
+.q-dot.answered-correct{background:var(--green);color:#fff}
+.q-dot.answered-wrong{background:var(--red);color:#fff}
+
+/* Results */
+.results{text-align:center;padding:40px 0}
+.results h2{font-size:28px;font-weight:800;margin-bottom:24px}
+.results-score{font-size:64px;font-weight:800;color:var(--python);margin-bottom:4px}
+.results-label{font-size:16px;color:var(--text2);margin-bottom:32px}
+.results-grade{font-size:20px;font-weight:700;margin-bottom:24px;padding:12px 24px;border-radius:var(--radius);display:inline-block}
+.grade-expert{background:rgba(34,197,94,.15);color:#22C55E}
+.grade-advanced{background:rgba(59,130,246,.15);color:#3B82F6}
+.grade-intermediate{background:rgba(234,179,8,.15);color:#EAB308}
+.grade-beginner{background:rgba(239,68,68,.15);color:#EF4444}
+.results-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+/* ========== GUIDE STYLES ========== */
+.guide-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.guide-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:16px}
+.guide-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:var(--shadow)}
+.guide-emoji{font-size:36px;flex-shrink:0}
+.guide-info{flex:1}
+.guide-card-title{font-size:16px;font-weight:700;margin-bottom:2px}
+.guide-card-meta{font-size:12px;color:var(--text3)}
+
+.guide-reader{animation:fadeIn .3s ease}
+.guide-reader h1{font-size:clamp(24px,4vw,36px);font-weight:800;margin-bottom:8px;color:var(--text)}
+.guide-reader h1 .guide-r-emoji{margin-right:8px}
+
+.guide-toc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px}
+.guide-toc-title{font-size:13px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px}
+.guide-toc a{display:block;padding:4px 0;font-size:14px;color:var(--text2);transition:var(--transition)}
+.guide-toc a:hover{color:var(--python)}
+
+.guide-section{margin-bottom:32px}
+.guide-section h2{font-size:22px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);scroll-margin-top:80px}
+
+.guide-block{margin-bottom:16px;font-size:15px;line-height:1.8}
+.guide-block h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.guide-block p{margin-bottom:8px}
+.guide-block ul,.guide-block ol{margin:8px 0 8px 24px}
+.guide-block li{margin-bottom:4px}
+.guide-block code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:13px;color:var(--python-light)}
+.guide-block pre{background:var(--code-bg);padding:16px 20px;border-radius:8px;overflow-x:auto;margin:12px 0;border:1px solid var(--border);line-height:1.5}
+.guide-block pre code{background:none;padding:0;font-size:13px;color:var(--text)}
+.guide-block strong{color:var(--text)}
+.guide-block em{color:var(--text2)}
+.guide-block table{width:100%;border-collapse:collapse;margin:12px 0}
+.guide-block th,.guide-block td{padding:8px 12px;border:1px solid var(--border);text-align:left;font-size:14px}
+.guide-block th{background:var(--bg3);font-weight:700}
+
+.guide-code-block{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin:12px 0;overflow-x:auto;position:relative}
+.guide-code-block pre{margin:0;padding:0;border:none;background:none}
+.guide-code-block code{font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:13px;color:var(--text);line-height:1.6;background:none;padding:0}
+.guide-code-label{position:absolute;top:6px;right:10px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+.guide-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:32px 0}
+
+/* Footer */
+.footer{text-align:center;padding:32px;color:var(--text3);font-size:13px;border-top:1px solid var(--border);margin-top:48px}
+
+/* Responsive */
+@media(max-width:600px){
+  .container{padding:16px}
+  .header{padding:10px 16px}
+  .tabs{padding:8px 16px}
+  .question-card{padding:20px}
+  .stats-row{gap:20px}
+  .q-grid{grid-template-columns:repeat(auto-fill,minmax(32px,1fr))}
+  .nav-bar,.guide-nav{flex-wrap:wrap}
+  .landing-hero{padding:24px 0 16px}
+  .guide-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left" onclick="goHome()">
+    <span class="logo">🐍</span>
+    <div class="header-title"><span>Python</span> Learn & Quiz</div>
+  </div>
+  <div class="header-right">
+    <div class="score-display" id="headerScore"></div>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar">
+  <button class="tab active" id="tabLearn" onclick="switchTab('learn')">📖 Learn</button>
+  <button class="tab" id="tabQuiz" onclick="switchTab('quiz')">🎯 Quiz</button>
+</nav>
+
+<main class="container" id="app"></main>
+
+<footer class="footer">
+  Built for <strong>learn-python-from-scratch</strong> — 15 concept guides + 1000 interview questions to master Python.
+</footer>
+
+<script src="quiz-data.js"></script>
+<script src="guides-data.js"></script>
+<script>
+(function(){
+"use strict";
+
+const $ = (s,p) => (p||document).querySelector(s);
+const app = $('#app');
+const headerScore = $('#headerScore');
+
+let currentTab = 'learn';
+let state = loadState();
+
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem('pythonQuizState'));
+    if(s && s.version === 3) return s;
+  }catch(e){}
+  return { version:3, answers:{}, currentPart:null, currentIndex:0, gridOpen:false, sessionIds:null, sessionLabel:null };
+}
+function saveState(){ localStorage.setItem('pythonQuizState', JSON.stringify(state)); }
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function getPartQuestions(partIndex){ return QUIZ_DATA.questions.filter(q=>q.part===partIndex); }
+function getActiveQuestions(){
+  if(state.sessionIds) return state.sessionIds.map(id=>QUIZ_DATA.questions.find(q=>q.id===id)).filter(Boolean);
+  if(state.currentPart) return getPartQuestions(state.currentPart);
+  return [];
+}
+function getActiveStats(){
+  const qs=getActiveQuestions(); let answered=0,correct=0;
+  qs.forEach(q=>{ const a=state.answers[q.id]; if(a){answered++;if(a.correct)correct++;} });
+  return {total:qs.length,answered,correct};
+}
+function getPartStats(partIndex){
+  const qs=getPartQuestions(partIndex); let answered=0,correct=0;
+  qs.forEach(q=>{ const a=state.answers[q.id]; if(a){answered++;if(a.correct)correct++;} });
+  return {total:qs.length,answered,correct};
+}
+function getAllStats(){
+  let answered=0,correct=0;
+  QUIZ_DATA.questions.forEach(q=>{ const a=state.answers[q.id]; if(a){answered++;if(a.correct)correct++;} });
+  return {total:QUIZ_DATA.questions.length,answered,correct};
+}
+
+function updateHeaderScore(){
+  if(currentTab==='learn'){ headerScore.textContent=''; return; }
+  if(state.currentPart && state.sessionIds){
+    const s=getActiveStats();
+    headerScore.innerHTML = s.answered>0 ? `<em>${s.correct}</em>/${s.answered}` : '';
+  } else {
+    const s=getAllStats();
+    headerScore.innerHTML = s.answered>0 ? `<em>${s.correct}</em>/${s.answered} correct` : '';
+  }
+}
+
+function renderMarkdown(text){
+  if(!text) return '';
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/```(\w*)\n([\s\S]*?)```/g, (m,lang,code)=> `<pre><code>${code.trim()}</code></pre>`)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function renderGuideMarkdown(text){
+  if(!text) return '';
+  let html = text;
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (m,lang,code)=>{
+    const label = lang ? `<span class="guide-code-label">${lang}</span>` : '';
+    const escaped = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="guide-code-block">${label}<pre><code>${escaped.trim()}</code></pre></div>`;
+  });
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/\|(.+)\|/g, function(match){
+    return match;
+  });
+  const lines = html.split('\n');
+  let result = [];
+  let inTable = false;
+  let tableRows = [];
+  let inList = false;
+  let listItems = [];
+  let listType = 'ul';
+
+  function flushList(){
+    if(listItems.length){
+      result.push(`<${listType}>${listItems.join('')}</${listType}>`);
+      listItems = [];
+    }
+    inList = false;
+  }
+  function flushTable(){
+    if(tableRows.length){
+      let thead = '', tbody = '';
+      tableRows.forEach((row,i)=>{
+        const cells = row.split('|').filter(c=>c.trim()!=='');
+        if(i===0){
+          thead = '<thead><tr>' + cells.map(c=>`<th>${processInline(c.trim())}</th>`).join('') + '</tr></thead>';
+        } else if(i===1 && /^[\s\-|:]+$/.test(row)){
+          // separator row
+        } else {
+          tbody += '<tr>' + cells.map(c=>`<td>${processInline(c.trim())}</td>`).join('') + '</tr>';
+        }
+      });
+      result.push(`<table>${thead}<tbody>${tbody}</tbody></table>`);
+      tableRows = [];
+    }
+    inTable = false;
+  }
+
+  function processInline(t){
+    return t
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  }
+
+  for(let i=0; i<lines.length; i++){
+    const line = lines[i];
+    if(line.startsWith('<div class="guide-code-block">')){
+      flushList(); flushTable();
+      let block = line;
+      while(i<lines.length-1 && !lines[i].includes('</div>')){
+        i++; block += '\n' + lines[i];
+      }
+      if(!block.includes('</div>')){ i++; block += '\n' + (lines[i]||''); }
+      result.push(block);
+      continue;
+    }
+    if(line.startsWith('<h3>')){
+      flushList(); flushTable();
+      result.push(line);
+      continue;
+    }
+    if(/^\|.+\|$/.test(line.trim())){
+      flushList();
+      inTable = true;
+      tableRows.push(line.trim());
+      continue;
+    }
+    if(inTable){ flushTable(); }
+    const ulMatch = line.match(/^[-*]\s+(.+)/);
+    const olMatch = line.match(/^\d+\.\s+(.+)/);
+    if(ulMatch){
+      if(!inList || listType!=='ul'){ flushList(); inList=true; listType='ul'; }
+      listItems.push(`<li>${processInline(ulMatch[1])}</li>`);
+      continue;
+    }
+    if(olMatch){
+      if(!inList || listType!=='ol'){ flushList(); inList=true; listType='ol'; }
+      listItems.push(`<li>${processInline(olMatch[1])}</li>`);
+      continue;
+    }
+    flushList();
+    const trimmed = line.trim();
+    if(!trimmed){ continue; }
+    result.push(`<p>${processInline(trimmed)}</p>`);
+  }
+  flushList(); flushTable();
+  return result.join('\n');
+}
+
+/* ========== TAB SWITCHING ========== */
+window.goHome = function(){
+  switchTab('learn');
+};
+
+window.switchTab = function(tab){
+  currentTab = tab;
+  $('#tabLearn').classList.toggle('active', tab==='learn');
+  $('#tabQuiz').classList.toggle('active', tab==='quiz');
+  if(tab==='learn'){ showGuidesList(); }
+  else { showLanding(); }
+};
+
+/* ========== GUIDES ========== */
+window.showGuidesList = function(){
+  currentTab = 'learn';
+  $('#tabLearn').classList.add('active');
+  $('#tabQuiz').classList.remove('active');
+  updateHeaderScore();
+  let cardsHTML = '';
+  GUIDES_DATA.forEach((g,i)=>{
+    cardsHTML += `
+      <div class="guide-card" onclick="openGuide(${i})">
+        <div class="guide-emoji">${g.emoji}</div>
+        <div class="guide-info">
+          <div class="guide-card-title">${g.title}</div>
+          <div class="guide-card-meta">${g.sectionCount} sections</div>
+        </div>
+      </div>`;
+  });
+
+  app.innerHTML=`
+    <div class="landing-hero">
+      <h1>📖 <span>Python</span> Building Blocks</h1>
+      <p>Learn the core concepts of Python — from variables to concurrency</p>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">${GUIDES_DATA.length}</div><div class="stat-label">Guides</div></div>
+        <div class="stat"><div class="stat-num">${GUIDES_DATA.reduce((s,g)=>s+g.sectionCount,0)}</div><div class="stat-label">Sections</div></div>
+      </div>
+    </div>
+    <div class="guide-list">${cardsHTML}</div>`;
+}
+
+window.openGuide = function(index){
+  currentTab = 'learn';
+  $('#tabLearn').classList.add('active');
+  $('#tabQuiz').classList.remove('active');
+  const g = GUIDES_DATA[index];
+  if(!g) return;
+
+  let tocHTML = '';
+  g.sections.forEach((sec,si)=>{
+    if(sec.heading){
+      tocHTML += `<a href="#section-${si}" onclick="event.preventDefault();document.getElementById('section-${si}').scrollIntoView({behavior:'smooth'})">${sec.heading}</a>`;
+    }
+  });
+
+  let sectionsHTML = '';
+  g.sections.forEach((sec,si)=>{
+    let blocksHTML = '';
+    sec.blocks.forEach(block=>{
+      if(block.type === 'code'){
+        const escaped = block.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        blocksHTML += `<div class="guide-code-block"><span class="guide-code-label">python</span><pre><code>${escaped}</code></pre></div>`;
+      } else {
+        blocksHTML += `<div class="guide-block">${renderGuideMarkdown(block.content)}</div>`;
+      }
+    });
+    sectionsHTML += `
+      <div class="guide-section" id="section-${si}">
+        ${sec.heading ? `<h2>${sec.heading}</h2>` : ''}
+        ${blocksHTML}
+      </div>`;
+  });
+
+  const prevIdx = index > 0 ? index - 1 : null;
+  const nextIdx = index < GUIDES_DATA.length - 1 ? index + 1 : null;
+
+  app.innerHTML=`
+    <div class="guide-reader">
+      <div class="guide-nav">
+        <button class="nav-btn" onclick="showGuidesList()">&#8592; All Guides</button>
+        <div style="display:flex;gap:8px">
+          ${prevIdx !== null ? `<button class="nav-btn" onclick="openGuide(${prevIdx})">&#8592; Prev</button>` : ''}
+          ${nextIdx !== null ? `<button class="nav-btn primary" onclick="openGuide(${nextIdx})">Next &#8594;</button>` : ''}
+        </div>
+      </div>
+      <h1><span class="guide-r-emoji">${g.emoji}</span>${g.title}</h1>
+      ${tocHTML ? `<div class="guide-toc"><div class="guide-toc-title">Contents</div>${tocHTML}</div>` : ''}
+      ${sectionsHTML}
+      <div class="guide-nav">
+        <button class="nav-btn" onclick="showGuidesList()">&#8592; All Guides</button>
+        <div style="display:flex;gap:8px">
+          ${prevIdx !== null ? `<button class="nav-btn" onclick="openGuide(${prevIdx})">&#8592; ${GUIDES_DATA[prevIdx].title}</button>` : ''}
+          ${nextIdx !== null ? `<button class="nav-btn primary" onclick="openGuide(${nextIdx})">${GUIDES_DATA[nextIdx].title} &#8594;</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+/* ========== SIZE PICKER MODAL ========== */
+function showSizePicker(partIndex){
+  const part = QUIZ_DATA.parts.find(p=>p.index===partIndex);
+  const overlay = document.createElement('div');
+  overlay.className='modal-overlay';
+  overlay.onclick=function(e){if(e.target===overlay){overlay.remove();}};
+  overlay.innerHTML=`
+    <div class="modal">
+      <h3>Part ${partIndex}: ${part.title}</h3>
+      <div class="modal-sub">${part.range} &middot; ${part.count} questions available</div>
+      <div class="size-options">
+        <div class="size-btn" onclick="launchQuiz(${partIndex},10)"><span class="size-num">10</span><span class="size-label">Quick round</span></div>
+        <div class="size-btn" onclick="launchQuiz(${partIndex},20)"><span class="size-num">20</span><span class="size-label">Short quiz</span></div>
+        <div class="size-btn" onclick="launchQuiz(${partIndex},30)"><span class="size-num">30</span><span class="size-label">Medium quiz</span></div>
+        <div class="size-btn" onclick="launchQuiz(${partIndex},50)"><span class="size-num">50</span><span class="size-label">Half set</span></div>
+        <div class="size-btn full-size" onclick="launchQuiz(${partIndex},100)"><span class="size-num">100</span><span class="size-label">Full set — all questions in order</span></div>
+      </div>
+      <button class="modal-cancel" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+window.launchQuiz = function(partIndex, count){
+  const overlay = document.querySelector('.modal-overlay');
+  if(overlay) overlay.remove();
+  const allQs = getPartQuestions(partIndex);
+  state.currentPart = partIndex;
+  state.currentIndex = 0;
+  if(count >= allQs.length){
+    state.sessionIds = allQs.map(q=>q.id);
+    state.sessionLabel = `All ${allQs.length}`;
+  } else {
+    const picked = shuffle(allQs).slice(0, count);
+    state.sessionIds = picked.map(q=>q.id);
+    state.sessionLabel = `${count} Random`;
+  }
+  state.sessionIds.forEach(id=>delete state.answers[id]);
+  saveState();
+  renderQuiz();
+};
+
+/* ========== QUIZ LANDING ========== */
+function showLanding(){
+  state.currentPart=null;
+  state.sessionIds=null;
+  state.sessionLabel=null;
+  saveState();
+  updateHeaderScore();
+
+  const allStats = getAllStats();
+  const totalQuestions = QUIZ_DATA.questions.length;
+  const totalParts = QUIZ_DATA.parts.length;
+  let cardsHTML='';
+  QUIZ_DATA.parts.forEach(p=>{
+    const s=getPartStats(p.index);
+    const pct=s.total>0?Math.round(s.answered/s.total*100):0;
+    cardsHTML+=`
+      <div class="part-card" onclick="openPart(${p.index})">
+        <div class="part-num">Part ${p.index}</div>
+        <div class="part-title">${p.title}</div>
+        <div class="part-range">${p.range} &middot; ${p.count} questions</div>
+        <div class="part-progress"><div class="part-progress-fill" style="width:${pct}%"></div></div>
+        <div class="part-score">${s.answered>0?`${s.correct}/${s.answered} correct (${pct}% done)`:'Not started'}</div>
+      </div>`;
+  });
+
+  app.innerHTML=`
+    <div class="landing-hero">
+      <h1>🎯 <span>Python</span> Interview Quiz</h1>
+      <p>1000 multiple-choice questions to test your Python knowledge</p>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">${totalQuestions}</div><div class="stat-label">Questions</div></div>
+        <div class="stat"><div class="stat-num">${totalParts}</div><div class="stat-label">Topics</div></div>
+        <div class="stat"><div class="stat-num">${allStats.answered}</div><div class="stat-label">Answered</div></div>
+        <div class="stat"><div class="stat-num">${allStats.answered>0?Math.round(allStats.correct/allStats.answered*100):0}%</div><div class="stat-label">Accuracy</div></div>
+      </div>
+    </div>
+    <div class="parts-grid">${cardsHTML}</div>
+    <div style="text-align:center">
+      <button class="start-all" onclick="openPart(1)">Start Quiz &rarr;</button>
+      <br><button class="nav-btn" style="margin-top:12px" onclick="resetAll()">Reset All Progress</button>
+    </div>`;
+}
+
+window.openPart = function(partIndex){ showSizePicker(partIndex); };
+
+/* ========== QUIZ MODE ========== */
+function renderQuiz(){
+  const partIndex = state.currentPart;
+  const qs = getActiveQuestions();
+  const part = QUIZ_DATA.parts.find(p=>p.index===partIndex);
+  const idx = state.currentIndex;
+  const q = qs[idx];
+  if(!q){showLanding();return;}
+
+  const stats = getActiveStats();
+  const pct = Math.round((idx+1)/qs.length*100);
+  const answered = state.answers[q.id];
+  const modeLabel = state.sessionLabel || `${qs.length} Questions`;
+
+  let optionsHTML='';
+  ['A','B','C','D'].forEach(letter=>{
+    if(!q.options[letter]) return;
+    let cls='option';
+    if(answered){
+      cls+=' disabled';
+      if(letter===q.correct) cls+=' correct';
+      else if(letter===answered.choice) cls+=' wrong';
+      else cls+=' dim';
+    }
+    optionsHTML+=`
+      <div class="${cls}" onclick="pickAnswer(${q.id},'${letter}')">
+        <div class="option-letter">${letter}</div>
+        <div class="option-text">${renderMarkdown(q.options[letter])}</div>
+      </div>`;
+  });
+
+  let explHTML='';
+  if(answered){
+    const icon = answered.correct ? '✅' : '❌';
+    explHTML=`<div class="explanation">${icon} ${renderMarkdown(q.explanation||'')}</div>`;
+  }
+
+  let gridHTML='';
+  qs.forEach((gq,gi)=>{
+    const ga=state.answers[gq.id];
+    let gcls='q-dot';
+    if(gi===idx) gcls+=' current';
+    else if(ga && ga.correct) gcls+=' answered-correct';
+    else if(ga && !ga.correct) gcls+=' answered-wrong';
+    gridHTML+=`<div class="${gcls}" onclick="goToQ(${gi})">${gi+1}</div>`;
+  });
+
+  const allDone = stats.answered === stats.total;
+
+  app.innerHTML=`
+    <div class="quiz-header">
+      <div class="quiz-title">Part ${partIndex}: ${part.title}<div class="quiz-mode-label">${modeLabel} questions</div></div>
+      <div class="quiz-counter">${stats.correct}/${stats.answered} correct &middot; ${idx+1}/${qs.length}</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="question-card">
+      <div class="q-number">Question ${idx+1} of ${qs.length} <span style="color:var(--text3);font-weight:400">(Q${q.id})</span></div>
+      <div class="q-text">${renderMarkdown(q.question)}</div>
+      <div class="options">${optionsHTML}</div>
+      ${explHTML}
+    </div>
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="prevQ()" ${idx===0?'disabled':''}>&#8592; Previous</button>
+      <div style="display:flex;gap:8px">
+        <button class="nav-btn" onclick="quitQuiz()" title="Reset this quiz and go home">Reset &amp; Quit</button>
+        <button class="nav-btn" onclick="showLanding()">Home</button>
+      </div>
+      ${allDone && idx===qs.length-1
+        ?`<button class="nav-btn primary" onclick="showResults()">See Results &rarr;</button>`
+        :`<button class="nav-btn primary" onclick="nextQ()" ${idx===qs.length-1?'disabled':''}>Next &rarr;</button>`}
+    </div>
+    <div class="q-grid-toggle" onclick="toggleGrid()">${state.gridOpen?'Hide':'Show'} question grid</div>
+    <div class="q-grid ${state.gridOpen?'':'hidden'}" id="qGrid">${gridHTML}</div>`;
+
+  updateHeaderScore();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.pickAnswer = function(qid, letter){
+  if(state.answers[qid]) return;
+  const q = QUIZ_DATA.questions.find(x=>x.id===qid);
+  state.answers[qid] = { choice:letter, correct:letter===q.correct };
+  saveState(); renderQuiz();
+};
+window.nextQ = function(){
+  const qs = getActiveQuestions();
+  if(state.currentIndex < qs.length-1){ state.currentIndex++; saveState(); renderQuiz(); }
+};
+window.prevQ = function(){
+  if(state.currentIndex > 0){ state.currentIndex--; saveState(); renderQuiz(); }
+};
+window.goToQ = function(idx){ state.currentIndex = idx; saveState(); renderQuiz(); };
+window.toggleGrid = function(){
+  state.gridOpen = !state.gridOpen; saveState();
+  const g=$('#qGrid'); if(g) g.classList.toggle('hidden');
+  const t=$('.q-grid-toggle'); if(t) t.textContent = state.gridOpen ? 'Hide question grid' : 'Show question grid';
+};
+
+/* ========== RESULTS ========== */
+window.showResults = function(){
+  const partIndex = state.currentPart;
+  const stats = getActiveStats();
+  const part = QUIZ_DATA.parts.find(p=>p.index===partIndex);
+  const modeLabel = state.sessionLabel || `${stats.total}`;
+  const pct = stats.total>0?Math.round(stats.correct/stats.total*100):0;
+  let grade, gradeClass;
+  if(pct>=80){grade='Expert';gradeClass='grade-expert';}
+  else if(pct>=60){grade='Advanced';gradeClass='grade-advanced';}
+  else if(pct>=40){grade='Intermediate';gradeClass='grade-intermediate';}
+  else{grade='Keep Practicing';gradeClass='grade-beginner';}
+
+  app.innerHTML=`
+    <div class="results">
+      <h2>Part ${partIndex}: ${part.title}</h2>
+      <div style="color:var(--text3);font-size:14px;margin-bottom:16px">${modeLabel} questions</div>
+      <div class="results-score">${pct}%</div>
+      <div class="results-label">${stats.correct} out of ${stats.total} correct</div>
+      <div class="results-grade ${gradeClass}">${grade}</div>
+      <div class="results-actions">
+        <button class="nav-btn" onclick="reviewQuiz()">Review Answers</button>
+        <button class="nav-btn" onclick="openPart(${partIndex})">New Quiz</button>
+        <button class="nav-btn primary" onclick="showLanding()">All Quizzes</button>
+      </div>
+    </div>`;
+  updateHeaderScore();
+};
+
+window.reviewQuiz = function(){ state.currentIndex=0; saveState(); renderQuiz(); };
+window.quitQuiz = function(){
+  if(!confirm('Reset this quiz session and go back to home?')) return;
+  if(state.sessionIds) state.sessionIds.forEach(id=>delete state.answers[id]);
+  state.currentPart=null; state.sessionIds=null; state.sessionLabel=null; state.currentIndex=0;
+  saveState(); showLanding();
+};
+window.resetAll = function(){
+  if(!confirm('Reset ALL progress across every quiz? This cannot be undone.')) return;
+  state.answers={}; saveState(); showLanding();
+};
+
+/* ========== THEME ========== */
+function toggleTheme(){
+  const html=document.documentElement;
+  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('pythonQuizTheme',next);
+}
+(function initTheme(){
+  const saved=localStorage.getItem('pythonQuizTheme');
+  if(saved) document.documentElement.setAttribute('data-theme',saved);
+})();
+
+/* ========== INIT ========== */
+showGuidesList();
+
+})();
+</script>
+</body>
+</html>
